@@ -48,3 +48,23 @@ export async function getHeroById(heroId) {
   const heroes = await readJson("data/heroes.json");
   return heroes.find((hero) => hero.id === heroId);
 }
+
+export async function createNewHero(body) {
+  const heroes = await readJson("data/heroes.json");
+  const hero = {
+    id: heroes.length > 0 ? heroes[heroes.length - 1].id + 1 : 1,
+    codeName: body.codeName,
+    powers: body.powers,
+    threatLevel: body.threatLevel,
+    status: body.status,
+    origin: body.origin,
+    affiliations: body.affiliations,
+    firstSighting: body.firstSighting,
+    notes: body.notes,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
+  heroes.push(hero);
+  await writeJson("data/heroes.json", heroes);
+  return hero.id;
+}
