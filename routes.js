@@ -5,7 +5,23 @@ export async function handleRoutes(req, res, parsedUrl) {
   const pathParts = parsedUrl.pathname.split("/");
   if (pathParts.length === 2 && pathParts[1] === "heroes") {
     if (method === "GET") {
-      const heroesList = await getHeroes();
+      const statusFilter = parsedUrl.searchParams.get("status");
+      const powerFilter = parsedUrl.searchParams.get("power");
+      const minLevelFilter = parsedUrl.searchParams.get("minLevel");
+      const maxLevelFilter = parsedUrl.searchParams.get("maxLevel");
+      const searchFilter = parsedUrl.searchParams.get("search");
+      const sortByFilter = parsedUrl.searchParams.get("sortBy");
+      const orderFilter = parsedUrl.searchParams.get("order");
+
+      const heroesList = await getHeroes(
+        statusFilter,
+        powerFilter,
+        minLevelFilter,
+        maxLevelFilter,
+        searchFilter,
+        sortByFilter,
+        orderFilter,
+      );
       res.writeHead(200);
       return res.end(JSON.stringify(heroesList));
     }
