@@ -56,7 +56,9 @@ export async function createNewHero(body) {
     codeName: body.codeName,
     powers: body.powers,
     threatLevel: body.threatLevel,
-    status: body.status,
+    status: ["active", "retired", "missing", "deceased"].includes(body.status)
+      ? body.status
+      : "active",
     origin: body.origin,
     affiliations: body.affiliations,
     firstSighting: body.firstSighting,

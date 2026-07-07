@@ -1,4 +1,14 @@
-import { getHeroes, getHeroById } from "./service.js";
+import { json } from "node:stream/consumers";
+import { getHeroes, getHeroById, createNewHero } from "./service.js";
+import { heroValidation } from "./validtor.js";
+
+async function getBodyData(req) {
+  let body = "";
+  for await (const chunk of req) {
+    body += chunk.toString();
+  }
+  return body ? JSON.parse(body) : {};
+}
 
 export async function handleRoutes(req, res, parsedUrl) {
   const method = req.method;
@@ -24,6 +34,23 @@ export async function handleRoutes(req, res, parsedUrl) {
       );
       res.writeHead(200);
       return res.end(JSON.stringify(heroesList));
+    } else if (method === "POST") {
+      const body = await getBodyData(req);
+      const validate = await heroValidation(body);
+      if (validate === "Conflict") {
+        res.writeHead(409);
+        return res.end(
+          JSON.stringify({ Message: "Code name is already exists" }),
+        );
+      } else if (validate.isValid === false) {
+        res.writeHead(400);
+        return res.end(JSON.stringify({ Message: validate.errors }));
+      }
+      const newId = await createNewHero(body);
+      res.writeHead(201);
+      return res.end(
+        JSON.stringify({ Message: `Hero ${newId} created successfully` }),
+      );
     }
   } else if (pathParts.length === 3 && pathParts[1] === "heroes") {
     const heroId = parseInt(pathParts[2]);
