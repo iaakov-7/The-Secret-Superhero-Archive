@@ -1,0 +1,23 @@
+{
+  "name": "the-secret-superhero-archive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "IO_file.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iaakov-7/The-Secret-Superhero-Archive.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/iaakov-7/The-Secret-Superhero-Archive/issues"
+  },
+  "homepage": "https://github.com/iaakov-7/The-Secret-Superhero-Archive#readme",
+  "dependencies": {}
+}
